@@ -1,0 +1,15 @@
+# The Caddyfile is an easy way to configure your Caddy web server.
+#
+# Unless the file starts with a global options block, the first
+# uncommented line is always the address of your site.
+
+# Static File Server
+#example.org, www.example.org {
+#    root * /srv/wwww/example.org
+#    file_server
+#}
+
+# Shiny Server 
+example.net, www.example.net {
+    reverse_proxy localhost:3838
+}

@@ -1,0 +1,9 @@
+---
+
+- hosts: shiny_server 
+  become: yes
+  become_method: sudo
+  roles:
+    - base
+    - shiny 
+    - caddy

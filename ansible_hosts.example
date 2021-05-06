@@ -1,0 +1,4 @@
+shiny_server:
+  hosts:
+    yourserver.example.org:
+      shiny_server_version: 1.5.16.958

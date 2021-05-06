@@ -1,0 +1,35 @@
+---
+
+- name: Dependencies
+  apt:
+    state: present
+    name:
+      - software-properties-common
+      - dirmngr
+      - gdebi-core
+
+- name: R Apt Key
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+- name: R Apt Repo
+  ansible.builtin.apt_repository:
+    repo: deb https://cloud.r-project.org/bin/linux/ubuntu {{ ansible_distribution_release }}-cran40/
+
+- name: c2d4u PPA
+  ansible.builtin.apt_repository:
+    repo: ppa:c2d4u.team/c2d4u4.0+
+    
+- name: R
+  apt:
+    update_cache: yes
+    state: present
+    name:
+      - r-base
+      - r-cran-shiny
+      - r-cran-rmarkdown
+
+- name: Shiny Server
+  apt:
+    deb: https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-{{ shiny_server_version }}-amd64.deb

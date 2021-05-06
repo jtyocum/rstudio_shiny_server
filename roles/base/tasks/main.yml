@@ -1,0 +1,84 @@
+---
+
+- name: Basics
+  apt:
+    state: present
+    name:
+      - git
+      - vim
+      - ufw
+      - chrony
+      - debconf-utils
+      - unattended-upgrades
+
+- name: Allow SSH
+  community.general.ufw:
+    rule: allow
+    port: ssh
+
+- name: Enable Firewall
+  community.general.ufw:
+    state: enabled
+
+- name: Set timezone to America/Los_Angeles
+  community.general.timezone:
+    name: America/Los_Angeles
+
+- name: Kernel Lockdown
+  copy:
+    content: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT lockdown=integrity"'
+    dest: /etc/default/grub.d/kernel_lockdown_integrity.cfg
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable slab_nomerge
+  copy:
+    content: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT slab_nomerge"'
+    dest: /etc/default/grub.d/slab_nomerge.cfg
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Set vsyscall=none
+  copy:
+    content: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT vsyscall=none"'
+    dest: /etc/default/grub.d/vsyscall_none.cfg
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Update GRUB configuration
+  command:
+    cmd: /usr/sbin/update-grub
+
+- name: Disable unprivileged eBPF
+  copy:
+    content: 'kernel.unprivileged_bpf_disabled = 1'
+    dest: /etc/sysctl.d/kernel_unprivileged_bpf_disabled.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable BPF JIT hardening
+  copy:
+    content: 'net.core.bpf_jit_harden = 2'
+    dest: /etc/sysctl.d/net_core_bpf_jit_harden.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restrict dmesg
+  copy:
+    content: 'kernel.dmesg_restrict = 1'
+    dest: /etc/sysctl.d/kernel_dmesg_restrict.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable Unattended Upgrades (Automatic Security Updates)
+  debconf:
+    name: unattended-upgrades
+    question: unattended-upgrades/enable_auto_updates
+    value: true
+    vtype: boolean
