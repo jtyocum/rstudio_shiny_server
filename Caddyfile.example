@@ -5,7 +5,7 @@
 
 # Static File Server
 #example.org, www.example.org {
-#    root * /srv/wwww/example.org
+#    root * /srv/www/example.org
 #    file_server
 #}
 
