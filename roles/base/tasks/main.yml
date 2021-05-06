@@ -13,7 +13,7 @@
 
 - name: Allow SSH
   community.general.ufw:
-    rule: allow
+    rule: limit
     port: ssh
 
 - name: Enable Firewall
