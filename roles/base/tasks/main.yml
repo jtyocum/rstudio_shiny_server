@@ -80,5 +80,5 @@
   debconf:
     name: unattended-upgrades
     question: unattended-upgrades/enable_auto_updates
-    value: true
+    value: 'true'
     vtype: boolean
