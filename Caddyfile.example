@@ -7,9 +7,11 @@
 #example.org, www.example.org {
 #    root * /srv/www/example.org
 #    file_server
+#    encode gzip
 #}
 
 # Shiny Server 
 example.net, www.example.net {
     reverse_proxy localhost:3838
+    encode gzip
 }
